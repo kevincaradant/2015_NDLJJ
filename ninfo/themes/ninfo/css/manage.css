@@ -1,0 +1,9 @@
+table .warning .validate_item{
+	color : green;
+}
+table .validate_item{
+	color: red;
+}
+table thead th{
+	cursor: pointer;
+}
