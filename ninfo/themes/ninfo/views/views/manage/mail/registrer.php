@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title>Inscription sur le site AGENCORA</title>
+    <title>Inscription sur le site NINFO</title>
 </head>
 <body>
     <table border="0" align="center" cellpadding="0" cellspacing="0" style="width:640px;font-family:Century Gothic,Verdana, Geneva, sans-serif;">
@@ -15,7 +15,7 @@
             <td>
                 <br/><br/>
                 <h2>Bonjour <?= $firstname . ' ' . $lastname; ?></h2>
-                <p>Un compte vous a été créé par AGENCORA pour pouvoir accéder à son site.</p>
+                <p>Un compte vous a été créé par NINFO pour pouvoir accéder à son site.</p>
                 <hr>
                 <p><?= $message_mail; ?></p>
                 <p>Vos identifiants:</p>
@@ -25,7 +25,6 @@
                 </ul>
 
                 <p><a href='<?= site_url("connexion/$id/$temp_password"); ?>'>Cliquez ici pour vous connecter !</a></p>
-                <p>Avec ce compte vous avez la possibilité de prendre des commandes en lignes.</p>
                 <p style="color: #FF0000">Il vous sera demandé de changer votre mot de passe à votre première connexion par soucis
                 de sécurité.</p>
                 <hr>
