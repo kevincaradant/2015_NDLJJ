@@ -1,5 +1,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-	<title>Agencora - <?= $template['title']; ?></title>
+	<title>NUIT DE L'INFO</title>
 <meta name="robots" content="index, follow">
 <meta name="description" content="NINFO">
 
