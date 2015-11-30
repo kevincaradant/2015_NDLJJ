@@ -12,8 +12,6 @@ class Account extends MY_Controller
 		parent::__construct();
 		$this->load->library('form_validation');
 
-	    $this->load->model('order_model');
-	    $this->load->model('product_model');
 	    $this->load->model('user_model');
 	    $this->load->library('email');
 

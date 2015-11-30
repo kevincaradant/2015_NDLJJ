@@ -18,7 +18,6 @@ class Manage_users extends MY_Controller
 	{
 		parent::__construct();
 		$this->load->model('user_model');
-		$this->load->model('entreprise_model');
 		$this->load->library('form_validation');
 		$this->load->library('email');
 	}

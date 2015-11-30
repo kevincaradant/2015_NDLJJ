@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title>Demande de contact Agencora - <?= $name; ?></title>
+    <title>Demande de contact NINFO - <?= $name; ?></title>
 </head>
 <body>
     <table border="0" align="center" cellpadding="0" cellspacing="0" style="width:640px;font-family:Century Gothic,Verdana, Geneva, sans-serif;">

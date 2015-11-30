@@ -1,5 +1,3 @@
-            <?php //var_dump($this->session->flashdata('alert'));exit; ?>
-
 <?php if ($this->session->flashdata('alert') !== null) : ?>
     <div id="alert" class="container">
         <div class="alert col-xs-12 <?= $this->session->flashdata('alert-type'); ?>">

@@ -6,23 +6,12 @@ class Accueil extends MY_Controller {
 
 
     public function index()
-    {
-        $this->load->model('entreprise_model');
+    {   
         $this->load->model('user_model');
-        $this->data->entreprises = $this->entreprise_model->front_get_all();
         //$this->load->view('home');
 
         if($this->user_lib->connected()){
-            $user = $this->user_model->get_once_by('id',$this->user_lib->user->id);
-            $this->data->id_entreprises = array();
-            if($user->entreprises){
-                foreach($user->entreprises as $entreprise){
-                    $this->data->id_entreprises[] = $entreprise->id;
-                }
-            }else{
-                $this->data->id_entreprises = array();
-            }
-
+            //zou
         }
 
         $this->template->set_layout('default')
