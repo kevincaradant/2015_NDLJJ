@@ -115,26 +115,6 @@ class Account extends MY_Controller
 	}
 
 	/**
-	* Mes commandes
-	*
-	*@return [views:account/commands]
-	*
-	*/
-	public function commands()
-	{
-
-		$this->data->orders = $this->order_model->get_all_by_user($this->user_lib->user->id);
-		if( !$this->data->orders){
-			$this->data->has_orders = false;
-		}else{
-			$this->data->has_orders = true;
-		}
-		$this->template->title('Mes commandes', $this->config->item('app_title'));
-		$this->template->set('page_title', 'Mes commandes');
-		$this->template->build('views/account/commands', $this->data);
-	}
-
-	/**
 	* Contact
 	*
 	*@return [views:account/contact]
@@ -156,21 +136,6 @@ class Account extends MY_Controller
 					'rules' => 'required',
 				),
 				array(
-					'field' => 'enseigne',
-					'label' => 'Enseigne',
-					'rules' => 'required',
-				),
-				array(
-					'field' => 'siret',
-					'label' => 'Siret',
-					'rules' => 'required',
-				),
-				array(
-					'field' => 'departement',
-					'label' => 'Departement',
-					'rules' => 'required',
-				),
-				array(
 					'field' => 'email',
 					'label' => 'Adresse email',
 					'rules' => 'required',
@@ -189,9 +154,6 @@ class Account extends MY_Controller
 					'name' => trim(strtolower($this->input->post('name'))),
 					'email' => trim(strtolower($this->input->post('email'))),
 					'telephone' => trim(ucwords(strtolower($this->input->post('telephone')))),
-					'enseigne' => trim(ucwords(strtolower($this->input->post('enseigne')))),
-					'siret' => trim(ucwords(strtolower($this->input->post('siret')))),
-					'departement' => trim(strtolower($this->input->post('departement'))),
 					'message' => trim(strtolower($this->input->post('message'))),
 				);
 
@@ -208,10 +170,9 @@ class Account extends MY_Controller
 
 				//On envoi le mail:
 
-				$this->email->from('from@fr');
-				$this->email->to('to@fr');
-				$this->email->cc('thib.chazottes@gmail.com');
-				$this->email->subject('blablabla');
+				$this->email->from('MySource@gmail.com');
+				$this->email->to('Myemail@gmail.com');
+				$this->email->subject('Subject');
 				$this->email->message($message_mail);
 
 				$this->email->send();
@@ -257,31 +218,6 @@ class Account extends MY_Controller
 					'label' => 'Adresse',
 					'rules' => 'trim|min_length[5]|max_length[255]',
 				),
-				array(
-					'field' => 'user_postal',
-					'label' => 'Code postal',
-					'rules' => 'trim|callback_check_postal',
-				),
-				array(
-					'field' => 'user_city',
-					'label' => 'Ville',
-					'rules' => 'trim|min_length[3]|max_length[100]',
-				),
-				array(
-					'field' => 'user_society',
-					'label' => 'Société',
-					'rules' => 'required|trim|min_length[3]|max_length[100]',
-				),
-				array(
-					'field' => 'user_telephone',
-					'label' => 'Téléphone',
-					'rules' => 'trim|is_natural',
-				),
-				array(
-					'field' => 'user_phone',
-					'label' => 'Téléphone',
-					'rules' => 'trim|is_natural',
-				),
 			);
 
 			if ($this->input->post('user_update_password') == 1)
@@ -312,12 +248,7 @@ class Account extends MY_Controller
 				$data = array(
 					'lastname' => ucwords(strtolower($this->input->post('user_lastname'))),
 					'firstname' => ucwords(strtolower($this->input->post('user_firstname'))),
-					'adress' => ucwords(strtolower($this->input->post('user_address'))),
-					'society' => ucwords(strtolower($this->input->post('user_society'))),
-					'code_postal' => $this->input->post('user_postal'),
-					'city' => ucwords(strtolower($this->input->post('user_city'))),
-					'telephone' => $this->input->post('user_telephone'),
-					'portable' => $this->input->post('user_phone'),
+					'address' => ucwords(strtolower($this->input->post('user_address'))),
 				);
 
 				if ($this->input->post('user_update_password') == 1)
@@ -373,11 +304,6 @@ class Account extends MY_Controller
 					'rules' => 'required|trim|xss_clean|matches[user_password]',
 				),
 				array(
-					'field' => 'user_gender',
-					'label' => 'Civilité',
-					'rules' => 'required|trim|xss_clean|callback_check_gender',
-				),
-				array(
 					'field' => 'user_firstname',
 					'label' => 'Prénom',
 					'rules' => 'required|trim|xss_clean|min_length[2]|max_length[100]',
@@ -388,44 +314,9 @@ class Account extends MY_Controller
 					'rules' => 'required|trim|xss_clean|min_length[2]|max_length[100]',
 				),
 				array(
-					'field' => 'user_birthday',
-					'label' => 'Date de naissance',
-					'rules' => 'required|trim|xss_clean|callback_check_birthday',
-				),
-				array(
 					'field' => 'user_address',
 					'label' => 'Adresse',
 					'rules' => 'required|trim|xss_clean|min_length[5]|max_length[255]',
-				),
-				array(
-					'field' => 'user_postal',
-					'label' => 'Code postal',
-					'rules' => 'required|trim|xss_clean|callback_check_postal',
-				),
-				array(
-					'field' => 'user_city',
-					'label' => 'Ville',
-					'rules' => 'required|trim|xss_clean|min_length[3]|max_length[100]',
-				),
-				array(
-					'field' => 'user_country',
-					'label' => 'Pays',
-					'rules' => 'required|trim|xss_clean|callback_check_country',
-				),
-				array(
-					'field' => 'user_phone',
-					'label' => 'Téléphone',
-					'rules' => 'required|trim|xss_clean|is_natural|callback_check_phone',
-				),
-				array(
-					'field' => 'user_socio',
-					'label' => 'Catégorie socio-professionnelle',
-					'rules' => 'required|trim|xss_clean|callback_check_socio',
-				),
-				array(
-					'field' => 'user_newsletter',
-					'label' => 'Newsletter',
-					'rules' => 'trim|xss_clean|is_natural',
 				),
 				/*array(
 					'field' => 'user_captcha',
@@ -442,19 +333,9 @@ class Account extends MY_Controller
 				$data = array(
 					'user_email' => strtolower($this->input->post('user_email')),
 					'user_password' => $this->user_lib->hash($this->input->post('user_password')),
-					'user_gender' => $this->input->post('user_gender'),
 					'user_lastname' => ucwords(strtolower($this->input->post('user_lastname'))),
 					'user_firstname' => ucwords(strtolower($this->input->post('user_firstname'))),
-					'user_birthday' => $this->input->post('user_birthday'),
-					'user_address' => ucwords(strtolower($this->input->post('user_address'))),
-					'user_postal' => $this->input->post('user_postal'),
-					'user_city' => ucwords(strtolower($this->input->post('user_city'))),
-					'user_country' => $this->input->post('user_country'),
-					'user_phone' => $this->input->post('user_phone'),
-					'user_socio' => $this->input->post('user_socio'),
-					'user_newsletter' => $this->input->post('user_newsletter') == 1 ? 1 : 0,
 					'user_date_register' => time(),
-					'user_ip_register' => $this->input->ip_address(),
 					'user_level' => 1
 				);
 
@@ -740,20 +621,20 @@ class Account extends MY_Controller
 	 *
 	 * @param string $code La date à valider
 	 */
-	public function check_postal($code)
-	{
-		$regex = "/^((0[1-9])|([1-8][0-9])|(9[0-8])|(2a)|(2b))[0-9]{3}$/";
+	// public function check_postal($code)
+	// {
+	// 	$regex = "/^((0[1-9])|([1-8][0-9])|(9[0-8])|(2a)|(2b))[0-9]{3}$/";
 
-		if (preg_match($regex, $code) != 0 || empty($code) )
-		{
-			return true;
-		}
-		else
-		{
-			$this->form_validation->set_message('check_postal', "Le code postal saisi est invalide");
-			return false;
-		}
-	}
+	// 	if (preg_match($regex, $code) != 0 || empty($code) )
+	// 	{
+	// 		return true;
+	// 	}
+	// 	else
+	// 	{
+	// 		$this->form_validation->set_message('check_postal', "Le code postal saisi est invalide");
+	// 		return false;
+	// 	}
+	// }
 
 	
 }

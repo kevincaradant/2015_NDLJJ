@@ -18,7 +18,7 @@ class Manage_users extends MY_Controller
 	{
 		parent::__construct();
 		$this->load->model('user_model');
-		$this->load->model('entreprise_model');
+		//$this->load->model('entreprise_model');
 		$this->load->library('form_validation');
 		$this->load->library('email');
 	}
@@ -54,7 +54,7 @@ class Manage_users extends MY_Controller
 
 			$temp_password = substr(md5(time()), 0, 10);
 			$data = array(
-				'password_acces' => $this->user_lib->hash($temp_password)
+				'password' => $this->user_lib->hash($temp_password)
 			);
 
 			if ($this->user_model->update($id_client,$data) === true) {
@@ -64,7 +64,6 @@ class Manage_users extends MY_Controller
 				$data['lastname'] = $user->lastname;
 				$data['email'] =  $user->email;
 				$data['temp_password'] = $temp_password;
-				$data['message_mail'] = '';
 				$data['id'] = $id_client;
 				$message_mail = $this->template->set_layout('mail')->build('views/manage/mail/registrer', $data, TRUE);
 
@@ -77,16 +76,14 @@ class Manage_users extends MY_Controller
 
 				//On envoi le mail:
 
-				$this->email->from('internet@agencora.fr');
+				$this->email->from('internet@gmail.com');
 				$this->email->to($user->email);
-				$this->email->cc('thib.chazottes@gmail.com');
-				$this->email->cc('agencora@gmail.com');
 				$this->email->subject('Vous êtes invités sur le site Agencora');
 				$this->email->message($message_mail);
 
 				$this->email->send();
 
-				alert("Un mail a été envoyé au client ainsi qu'à vous en copie.", 'success', true);
+				alert("Un mail a été envoyé; Regardez votre boite mail", 'success', true);
 			} else {
 				alert("Impossible de valider l'inscription pour le moment. Veuillez réessayer ultérieurement.", 'error', true);
 			}
@@ -99,7 +96,7 @@ class Manage_users extends MY_Controller
 	public function add()
 	{
 
-		$this->data->entreprises = $this->entreprise_model->get_all();
+		//$this->data->entreprises = $this->entreprise_model->get_all();
 
 
 		if ($this->input->post('user_add_form') == 'sent'){
@@ -132,17 +129,9 @@ class Manage_users extends MY_Controller
 							'email' => trim(strtolower($this->input->post('email'))),
 							'firstname' => trim(ucwords(strtolower($this->input->post('prenom')))),
 							'lastname' => trim(ucwords(strtolower($this->input->post('nom')))),
-							'society' => trim(ucwords(strtolower($this->input->post('society')))),
-							'adress' => trim(strtolower($this->input->post('adress'))),
-							'city' => trim(strtolower($this->input->post('city'))),
-							'code_postal' => trim(strtolower($this->input->post('code_postal'))),
-							'iso_departement' => trim(strtolower($this->input->post('iso_departement'))),
-							'type' => trim(strtolower($this->input->post('type'))),							
-							'telephone' => trim(strtolower($this->input->post('telephone'))),
-							'portable' => trim(strtolower($this->input->post('portable'))),
-							'adress' => trim(strtolower($this->input->post('adress'))),
+							'address' => trim(strtolower($this->input->post('adress'))),
 							'level' => 1,
-							'password_acces' =>  $this->user_lib->hash($temp_password)
+							'password' =>  $this->user_lib->hash($temp_password)
 						);
 
 
@@ -152,9 +141,9 @@ class Manage_users extends MY_Controller
 							$data['id'] = $this->user_model->get_once_by('email',$this->input->post('email'))->id;
 
 							//On créé les relations user/entreprise
-							$entreprises_user = $this->input->post('entreprises');
+							//$entreprises_user = $this->input->post('entreprises');
 
-							$this->user_model->update_relation_entreprise_user($entreprises_user,$data['id']);
+							//$this->user_model->update_relation_entreprise_user($entreprises_user,$data['id']);
 
 							//On edite le message du mail
 
@@ -173,7 +162,6 @@ class Manage_users extends MY_Controller
 							$config_email = array(
 								'protocol' => 'mail',
 								'charset' => 'utf-8',
-								
 								'mailtype' => 'html'
 							);
 							$this->email->initialize($config_email);
@@ -182,16 +170,13 @@ class Manage_users extends MY_Controller
 
 							//On envoi le mail:
 
-							$this->email->from('internet@agencora.fr');
+							$this->email->from('internet@gmail.com');
 							$this->email->to(trim(strtolower($this->input->post('email'))));
-							$this->email->cc('thib.chazottes@gmail.com');
-							$this->email->cc('agencora@gmail.com');
 							$this->email->subject('Vous êtes invités sur le site Agencora');
 							$this->email->message($message_mail);
-
 							$this->email->send();
 
-							alert("Un mail a été envoyé au client ainsi qu'à vous en copie.", 'success', true);
+							alert("Un mail a été envoyé. Regardez votre boite mail", 'success', true);
 						} else {
 							alert("Impossible de valider l'inscription pour le moment. Veuillez réessayer ultérieurement.", 'error', true);
 						}
@@ -209,7 +194,7 @@ class Manage_users extends MY_Controller
 
 	public function update($id_client){
 
-		$this->data->entreprises = $this->entreprise_model->get_all();
+		//$this->data->entreprises = $this->entreprise_model->get_all();
 
 		if($this->user_model->get_once_by_id($id_client)){
 
@@ -240,27 +225,19 @@ class Manage_users extends MY_Controller
 					//Generation du mots de passe temporaire:
 					$temp_password = substr(md5(time()), 0, 10);
 					$data = array(
-						'email' => trim(strtolower($this->input->post('email'))),
+						
 						'firstname' => trim(ucwords(strtolower($this->input->post('prenom')))),
 						'lastname' => trim(ucwords(strtolower($this->input->post('nom')))),
-						'society' => trim(ucwords(strtolower($this->input->post('society')))),
-						'adress' => trim(strtolower($this->input->post('adress'))),
-						'city' => trim(strtolower($this->input->post('city'))),
-						'code_postal' => trim(strtolower($this->input->post('code_postal'))),
-						'iso_departement' => trim(strtolower($this->input->post('iso_departement'))),
-						'type' => trim(strtolower($this->input->post('type'))),																				
-						'telephone' => trim(strtolower($this->input->post('telephone'))),
-						'portable' => trim(strtolower($this->input->post('portable'))),
-						'adress' => trim(strtolower($this->input->post('adress'))),
-						'password_acces' => $this->user_lib->hash($temp_password)
+						'email' => trim(strtolower($this->input->post('email'))),
+						'password' => $this->user_lib->hash($temp_password)
 					);
 					if ($this->user_model->update($id_client,$data) === true) {
 						$this->user_model->update($id_client,$data);
 
 						//On update les relations user/entreprise
-						$entreprises_user = $this->input->post('entreprises');
+						//$entreprises_user = $this->input->post('entreprises');
 
-						$this->user_model->update_relation_entreprise_user($entreprises_user,$id_client);
+						//$this->user_model->update_relation_entreprise_user($entreprises_user,$id_client);
 
 
 						alert("Le compte a bien été modifié", 'success', true);
